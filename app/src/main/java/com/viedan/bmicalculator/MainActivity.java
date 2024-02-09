@@ -49,23 +49,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 double bmiResult = calculateBMI();
 
-                String ageText = ageEditText.getText().toString();
-                int age = Integer.parseInt(ageText);
+                if (ageEditText.getText().toString().length() != 0) {
+                    String ageText = ageEditText.getText().toString();
+                    int age = Integer.parseInt(ageText);
 
-                if (age >= 18){
-                    displayResult(bmiResult);
+                    if (age >= 18) {
+                        displayResult(bmiResult);
+                    } else {
+                        displayGuidance(bmiResult);
+                    }
                 } else {
-                    displayGuidance(bmiResult);
+                    displayResult(0);
                 }
-
-
             }
         });
     }
 
-
-
     private double calculateBMI() {
+
         String heightText = heightEditText.getText().toString();
         String weightText = weightEditText.getText().toString();
         //Converting String into Int
@@ -80,12 +81,17 @@ public class MainActivity extends AppCompatActivity {
         String bmiTextResult = myDecimalFormatter.format(bmi);
         String fullResultString;
 
-        if (bmi < 18.5){
-            //Display underweight
-            fullResultString = bmiTextResult + " - You are underweight";
-        } else if(bmi>25){
+        if (bmi == 0){
+            // Fehlerausgabe
+            fullResultString = "Please fill all forms";
+        } else if(bmi > 25) {
             //Display overweight
             fullResultString = bmiTextResult + " - You are overweight";
+        } else if (bmi < 18.5){
+            // Fehlerausgabe
+            fullResultString = "Please fill all forms";
+            //Display underweight
+            fullResultString = bmiTextResult + " - You are underweight";
         } else {
             //Display healthy
             fullResultString = bmiTextResult + " - You are healthy weight";
